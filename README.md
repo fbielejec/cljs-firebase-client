@@ -8,6 +8,8 @@ ClojureScript wrapper library for interacting with [Firebase](https://firebase.g
 This library uses [shadow-cljs](https://shadow-cljs.github.io/docs/UsersGuide.html) for JavaScript integration.
 For this reason you should probably use it only if your project is also using shadow-cljs / deps.edn to resolve JS dependencies.
 
+For rationale and some possible uses see accompanying [blog post](https://www.blog.nodrama.io/clojurescript-firebase-library/).
+
 ## Installation
 Latest released version of this library: <br>
 [![Clojars Project](https://img.shields.io/clojars/v/fbielejec/cljs-firebase-client.svg)](https://clojars.org/fbielejec/cljs-firebase-client)
@@ -281,38 +283,11 @@ This query will return a [snapshot](#snapshot->clj) of documents in the `"follow
 
 #### <a name="start-after"></a>`start-after`
 
-` start-after [coll-ref index]`
+`start-after [coll-ref index]`
 
 #### <a name="limit"></a>`limit`
 
-Can be combined with other query statements to paginate a [query](#query):
-
-```
-(let [batch-size 3
-      user-id (.-uid (current-user))
-      first-batch (-> (coll-ref "following")
-                      (where ">=" user-id true)
-                      (order-by user-id)
-                      (limit batch-size)
-                      query)]
-  (promise-> first-batch
-             (fn [snapshot]
-               (let [docs->clj #(->> (db/snapshot->clj %)
-                                     (map keys)
-                                     flatten)
-                     docs (.-docs snapshot)
-                     last-doc (aget docs (dec (-> docs .-length)))
-                     next-batch (-> (coll-ref "following")
-                                    (where ">=" user-id true)
-                                    (order-by user-id)
-                                    (start-after (get-document-field-value last-doc user-id))
-                                    (limit batch-size)
-                                    query)]
-                 (promise-> first-batch
-                            #(prn (docs->clj %))
-                            (promise-> next-batch
-                                       #(prn (docs->clj %))))))))
-```
+`limit [coll-ref n]`
 
 ### <a name="events.firebase"></a>`events.firebase`
 
