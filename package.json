@@ -1,0 +1,20 @@
+{
+  "name": "cljs-firebase-client",
+  "version": "0.0.1",
+  "scripts": {
+    "deps": "yarn install",
+    "lib:release": "shadow-cljs release lib",
+    "lib:watch": "shadow-cljs watch lib"
+  },
+  "dependencies": {
+    "firebase": "6.2.3",
+    "firebase-admin": "7.3.0",
+    "source-map-support": "0.5.13"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.8.52"
+  },
+  "engines": {
+    "node": ">10.0.0"
+  }
+}
