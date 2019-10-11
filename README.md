@@ -1,4 +1,4 @@
-# nodrama/cljs-firebase-client
+# fbielejec/cljs-firebase-client
 
 ClojureScript library for calling the [Firebase API](https://firebase.google.com) <br>
 <br>
@@ -49,6 +49,8 @@ There are helper methods to kebab-case and keywordize the return values and resp
 
 ### <a name="firebase.core"></a>`firebase.core`
 
+Core namespace contains only one function which initializes the Firebase client.
+
 #### <a name="init"></a>`init`
 
 Initialize Firebase client. Takes a map of [config](https://firebase.google.com/docs/web/setup) values as an argument. Example:
@@ -63,7 +65,11 @@ Initialize Firebase client. Takes a map of [config](https://firebase.google.com/
 ```
 ### <a name="firebase.auth"></a>`firebase.auth`
 
+Functions to authenticate users to your app. See [doc](https://firebase.google.com/docs/auth) for more references.
+
 #### <a name="email-sign-in"></a>`email-sign-in`
+
+`email-sign-in [{:keys [:email :password]}]`
 
 #### <a name="email-create-user"></a>`email-create-user`
 
@@ -77,13 +83,23 @@ Example:
 
 #### <a name="on-auth-change"></a>`on-auth-change`
 
+`on-auth-change [{:keys [:on-change]}]`
+
 #### <a name="current-user"></a>`current-user`
+
+Returns a currently logged in user.
 
 #### <a name="update-user-profile"></a>`update-user-profile`
 
+Takes a [user](#current-user) and a map of field keys.
+
 #### <a name="logout"></a>`logout`
 
+Signs out a currently logged in [user](#current-user).
+
 #### <a name="email-login"></a>`email-login`
+
+Same as [email-sign-in](#email-sign-in) extra `:on-success` `:on-error` keys to the options map with callbacks executed after a sign-in success or failure.
 
 ### <a name="firebase.admin"></a>`firebase.admin`
 
@@ -114,7 +130,9 @@ Initialize [Firebase Admin SDK](https://firebase.google.com/docs/admin/setup/#in
              :credential (admin/credential service-account)})
 ```
 
-#### <a name="server.timestamp"></a>`server.timestamp`
+#### <a name="server-timestamp"></a>`server-timestamp`
+
+See [documentation](https://firebase.google.com/docs/reference/js/firebase.firestore.Timestamp) for more details.
 
 #### <a name="list-users"></a>`list-users`
 
@@ -140,9 +158,25 @@ Example (deletes all users):
 
 ### <a name="firebase.firestore"></a>`firebase.firestore`
 
+This namespace contains functions for interacting with the [Cloud Firestore](https://firebase.google.com/docs/firestore/).
+
 #### <a name="coll-ref"></a>`coll-ref`
 
+Obtain a reference to a collection:
+
+```
+(coll-ref "following")
+```
+
 #### <a name="doc-ref"></a>`doc-ref`
+
+Obtain a reference to a document, takes a path or collection and document id as arguments:
+
+```
+(doc-ref "followers" "ml8mnGIEINP1eol2PSWSfnlen0Q2")
+;; same as
+(doc-ref "followers/ml8mnGIEINP1eol2PSWSfnlen0Q2")
+```
 
 #### <a name="document-set"></a>`document-set`
 
@@ -153,14 +187,14 @@ If the documetn does not exist it will be created, unless the merge option is sp
 Example:
 
 ```clojure
-(-> (db/document-set {:collection "followers"
-                      :id "VFdERNhp94PIJijeuxjJYXTLEZm2"
-                      :document {"ml8mnGIEINP1eol2PSWSfnlen0Q2" true}}
-                     {:merge true})
-    (.then #(db/document-set {:collection "following"
-                              :id "ml8mnGIEINP1eol2PSWSfnlen0Q2"
-                              :document {"VFdERNhp94PIJijeuxjJYXTLEZm2" true}}
-                             {:merge true})))
+(-> (document-set {:collection "followers"
+                   :id "VFdERNhp94PIJijeuxjJYXTLEZm2"
+                   :document {"ml8mnGIEINP1eol2PSWSfnlen0Q2" true}}
+                  {:merge true})
+    (.then #(document-set {:collection "following"
+                           :id "ml8mnGIEINP1eol2PSWSfnlen0Q2"
+                           :document {"VFdERNhp94PIJijeuxjJYXTLEZm2" true}}
+                          {:merge true})))
 ```
 
 #### <a name="document-add"></a>`document-add`
@@ -177,24 +211,40 @@ Example:
            :sender-id sender-id
            :receiver-id receiver-id
            :created-at (.getTime (js/Date.))}]
-  (-> (db/document-add {:path (string/join "/" ["messages" receiver-id sender-id])
-                        :document doc})
-      (.then #(db/document-add {:path (string/join "/" ["messages" sender-id receiver-id])
-                                :document doc}))))
+  (-> (document-add {:path (string/join "/" ["messages" receiver-id sender-id])
+                     :document doc})
+      (.then #(document-add {:path (string/join "/" ["messages" sender-id receiver-id])
+                             :document doc}))))
 ```
 
 
 #### <a name="document->clj"></a>`document->clj`
 
+Takes a document and returns a clojure representation.
+
 #### <a name="snapshot->clj"></a>`snapshot->clj`
+
+Takes a [query](#query) snapshot and returns a clojure representation.
 
 #### <a name="query"></a>`query`
 
+Executes a query (get). Takes a document or collection ref as an argument, returns a JS/Promise resolving to a  [snapshot](#snapshot) with the results.
+
 #### <a name="get-collection"></a>`get-collection`
+
+Executes a [query](#query) on a collection, return a JS/Promise with the collection content.
 
 #### <a name="get-document"></a>`get-document`
 
+Executes a [query](#query) on a document, return a JS/Promise with the document content.
+
 #### <a name="get-document-field-value"></a>`get-document-field-value`
+
+Takes a document and a field name, returns the value.
+
+```
+(get-document-field-value (doc-ref "followers/ml8mnGIEINP1eol2PSWSfnlen0Q2") "id")
+```
 
 #### <a name="delete-document"></a>`delete-document`
 
@@ -205,12 +255,56 @@ Deletes document from a collection. Takes a `path` or collection and document id
 ;; same as
 (delete-document "followers/ml8mnGIEINP1eol2PSWSfnlen0Q2")
 ```
+
 #### <a name="where"></a>`where`
 
+Takes a collection ref, operator, key and a value, returns the same ref, but now you need can call a [query](#query) to execute the search.
+This query will return a [snapshot](#snapshot->clj) of documents in the `"following"` collection where the key `"ml8mnGIEINP1eol2PSWSfnlen0Q2"` has the value `true`:
+
+```
+(-> (coll-ref "following")
+    (where ">=" "ml8mnGIEINP1eol2PSWSfnlen0Q2" true)
+    query)
+```
 #### <a name="order-by"></a>`order-by`
+
+`order-by [coll-ref field & direction]`
 
 #### <a name="start-at"></a>`start-at`
 
+`start-at [coll-ref index]`
+
 #### <a name="start-after"></a>`start-after`
 
+` start-after [coll-ref index]`
+
 #### <a name="limit"></a>`limit`
+
+Can be combined with other query statements to paginate a [query](#query):
+
+```
+(let [batch-size 3
+      user-id (.-uid (current-user))
+      first-batch (-> (coll-ref "following")
+                      (where ">=" user-id true)
+                      (order-by user-id)
+                      (limit batch-size)
+                      query)]
+  (promise-> first-batch
+             (fn [snapshot]
+               (let [docs->clj #(->> (db/snapshot->clj %)
+                                     (map keys)
+                                     flatten)
+                     docs (.-docs snapshot)
+                     last-doc (aget docs (dec (-> docs .-length)))
+                     next-batch (-> (coll-ref "following")
+                                    (where ">=" user-id true)
+                                    (order-by user-id)
+                                    (start-after (get-document-field-value last-doc user-id))
+                                    (limit batch-size)
+                                    query)]
+                 (promise-> first-batch
+                            #(prn (docs->clj %))
+                            (promise-> next-batch
+                                       #(prn (docs->clj %))))))))
+```
