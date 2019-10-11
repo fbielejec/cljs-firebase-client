@@ -28,8 +28,7 @@
 (defn logout []
   (-> Firebase .auth .signOut))
 
-(defn email-login [{:keys [:email :password :on-success :on-error]
-                    :as args}]
+(defn email-login [{:keys [:email :password :on-success :on-error]}]
   (-> (email-sign-in {:email email :password password})
       (.then (fn [result]
                (on-success result)))

@@ -95,18 +95,32 @@ Example:
 #### <a name="current-user"></a>`current-user`
 
 Returns a currently logged in user.
+Example:
+
+```
+(.-uid (current-user)
+```
 
 #### <a name="update-user-profile"></a>`update-user-profile`
 
-Takes a [user](#current-user) and a map of field keys.
+Takes a [user](#current-user) and a map of field keys:
+
+`update-user-profile [user {:keys [:photo-url :display-name]}]`
 
 #### <a name="logout"></a>`logout`
 
 Signs out a currently logged in [user](#current-user).
+Example:
+
+```
+(logout)
+```
 
 #### <a name="email-login"></a>`email-login`
 
-Same as [email-sign-in](#email-sign-in) extra `:on-success` `:on-error` keys to the options map with callbacks executed after a sign-in success or failure.
+Same as [email-sign-in](#email-sign-in) extra `:on-success` `:on-error` keys to the options map with callbacks executed after a sign-in success or failure:
+
+`email-login [{:keys [:email :password :on-success :on-error]}]`
 
 ### <a name="firebase.admin"></a>`firebase.admin`
 
@@ -121,7 +135,9 @@ This namespace will only work in a NodeJS runtime environment.
 
 #### <a name="credential"></a>`credential`
 
-Create [google application credentials](https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application) from a service account file.
+Create [google application credentials](https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application) from a service account file:
+
+`credential [cert]`
 
 #### <a name="init"></a>`init`
 
@@ -141,6 +157,10 @@ Initialize [Firebase Admin SDK](https://firebase.google.com/docs/admin/setup/#in
 
 See [documentation](https://firebase.google.com/docs/reference/js/firebase.firestore.Timestamp) for more details.
 
+```
+(server-timestamp)
+```
+
 #### <a name="list-users"></a>`list-users`
 
 Returns a JS/Promise with a list of all users:
@@ -150,7 +170,7 @@ Returns a JS/Promise with a list of all users:
 ```
 #### <a name="delete-user"></a>`delete-user`
 
-Deletes a user, take suser id as an argument:
+Deletes a user, takes the user id as an argument.
 Example (deletes all users):
 
 ```
@@ -229,25 +249,36 @@ Example:
 
 Takes a document and returns a clojure representation.
 
+`document->clj [doc]`
+
 #### <a name="snapshot->clj"></a>`snapshot->clj`
 
 Takes a [query](#query) snapshot and returns a clojure representation.
+
+`snapshot->clj [snapshot]`
 
 #### <a name="query"></a>`query`
 
 Executes a query (get). Takes a document or collection ref as an argument, returns a JS/Promise resolving to a  [snapshot](#snapshot) with the results.
 
+`query [ref]`
+
 #### <a name="get-collection"></a>`get-collection`
 
 Executes a [query](#query) on a collection, return a JS/Promise with the collection content.
+
+`get-collection [collection]`
 
 #### <a name="get-document"></a>`get-document`
 
 Executes a [query](#query) on a document, return a JS/Promise with the document content.
 
+`get-document [collection id]`
+
 #### <a name="get-document-field-value"></a>`get-document-field-value`
 
 Takes a document and a field name, returns the value.
+Example:
 
 ```
 (get-document-field-value (doc-ref "followers/ml8mnGIEINP1eol2PSWSfnlen0Q2") "id")
