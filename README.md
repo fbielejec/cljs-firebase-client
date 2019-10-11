@@ -310,3 +310,7 @@ Can be combined with other query statements to paginate a [query](#query):
                             (promise-> next-batch
                                        #(prn (docs->clj %))))))))
 ```
+
+### <a name="events.firebase"></a>`events.firebase`
+
+This namespace contains [re-frame](https://github.com/Day8/re-frame) event wrappers around other api functions.

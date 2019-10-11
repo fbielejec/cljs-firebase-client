@@ -6,12 +6,6 @@
   :dependencies [[org.clojure/clojurescript "1.10.439"]
                  [re-frame "0.10.6"]]
 
-  :npm {:dependencies [["firebase" "6.2.3"]
-                       ["firebase-admin" "7.3.0"]
-                       ["source-map-support" "0.5.13"]]}
-
-  :plugins [[lein-npm "0.6.2"]]
-
   :deploy-repositories [["snapshots" {:url "https://clojars.org/repo"
                                       :username :env/clojars_username
                                       :password :env/clojars_password
