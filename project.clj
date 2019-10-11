@@ -10,8 +10,7 @@
                        ["firebase-admin" "7.3.0"]
                        ["source-map-support" "0.5.13"]]}
 
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.9.0"]]
-                   :plugins [[lein-npm "0.6.2"]]}}
+  :plugins [[lein-npm "0.6.2"]]
 
   :deploy-repositories [["snapshots" {:url "https://clojars.org/repo"
                                       :username :env/clojars_username

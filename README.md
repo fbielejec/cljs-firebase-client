@@ -1,15 +1,17 @@
 # fbielejec/cljs-firebase-client
 
+[![Build Status](https://travis-ci.org/fbielejec/cljs-firebase-client.svg?branch=master)](https://travis-ci.org/fbielejec/cljs-firebase-client)
+
 ClojureScript library for calling the [Firebase API](https://firebase.google.com) <br>
 <br>
 
 ## Installation
 Latest released version of this library: <br>
-[![Clojars Project]()](https://clojars.org/nodrama/cljs-firebase-client)
+[![Clojars Project](https://img.shields.io/clojars/v/fbielejec/cljs-firebase-client.svg)](https://clojars.org/fbielejec/cljs-firebase-client)
 
 ## API Overview
 
-Stick with the api of the javascript client [docs](https://firebase.google.com/docs/web/setup), all of the documented methods have their version in the JS library.
+Stick with the API of the javascript client [docs](https://firebase.google.com/docs/web/setup), all of the documented methods have their version in the JS library.
 There are helper methods to kebab-case and keywordize the return values and responses.
 
 - [firebase.core](#core)
