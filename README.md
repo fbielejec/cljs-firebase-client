@@ -1,14 +1,13 @@
-# fbielejec/cljs-firebase-client
+# cljs-firebase-client
 
 [![Build Status](https://travis-ci.org/fbielejec/cljs-firebase-client.svg?branch=master)](https://travis-ci.org/fbielejec/cljs-firebase-client)
 
-ClojureScript wrapper library for interacting with [Firebase](https://firebase.google.com) <br>
-<br>
+ClojureScript wrapper library for interacting with [Firebase](https://firebase.google.com)
 
 This library uses [shadow-cljs](https://shadow-cljs.github.io/docs/UsersGuide.html) for JavaScript integration.
 For this reason you should probably use it only if your project is also using shadow-cljs / deps.edn to resolve JS dependencies.
 
-For rationale and some possible uses see accompanying [blog post](https://www.blog.nodrama.io/clojurescript-firebase-library/).
+For rationale and some possible uses see the accompanying [blog post](https://www.blog.nodrama.io/clojurescript-firebase-library/).
 
 ## Installation
 Latest released version of this library: <br>
@@ -18,6 +17,7 @@ Latest released version of this library: <br>
 
 Stick with the API of the javascript client [docs](https://firebase.google.com/docs/web/setup), all of the documented methods have their version in the JS library.
 There are helper methods to kebab-case and keywordize the return values and responses.
+Most of the functions will return a JS/Promise. The [events](#events) namespace provides re-frame events which wrap some of the API (work-in-progress).
 
 - [firebase.core](#core)
   - [init!](#init)
