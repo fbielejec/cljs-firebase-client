@@ -2,8 +2,11 @@
 
 [![Build Status](https://travis-ci.org/fbielejec/cljs-firebase-client.svg?branch=master)](https://travis-ci.org/fbielejec/cljs-firebase-client)
 
-ClojureScript library for calling the [Firebase API](https://firebase.google.com) <br>
+ClojureScript wrapper library for interacting with [Firebase](https://firebase.google.com) <br>
 <br>
+
+This library uses [shadow-cljs](https://shadow-cljs.github.io/docs/UsersGuide.html) for JavaScript integration.
+For this reason you should probably use it only if your project is also using shadow-cljs / deps.edn to resolve JS dependencies.
 
 ## Installation
 Latest released version of this library: <br>
