@@ -7,7 +7,7 @@
     "lib:watch": "shadow-cljs watch lib"
   },
   "dependencies": {
-    "firebase": "6.2.3",
+    "firebase": "10.9.0",
     "firebase-admin": "7.3.0",
     "source-map-support": "0.5.13"
   },
